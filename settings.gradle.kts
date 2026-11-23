@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "CurrencyConverter"
+rootProject.name = "FocusFlow"
 include(":app")

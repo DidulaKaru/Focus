@@ -1,16 +1,23 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    }
 }
 
 android {
-    namespace = "com.example.currencyconverter"
-    compileSdk {
-        version = release(37)
-    }
+    namespace = "com.focusflow.app"
+    compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.example.currencyconverter"
+        applicationId = "com.focusflow.app"
         minSdk = 26
         targetSdk = 37
         versionCode = 1
@@ -64,6 +71,11 @@ dependencies {
 
     // Navigation Compose
     implementation(libs.navigation.compose)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    add("ksp", libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.core)
