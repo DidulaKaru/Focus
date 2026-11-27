@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Search
@@ -232,7 +233,7 @@ fun DashboardScreen(
                     }
                 }
                 is TasksUiState.Success -> {
-                    // Daily Focus Ring & Streak Bar Header
+                    // Daily Focus Ring & Streak Bar Header (Clean Vector Icons, Zero Emojis)
                     Surface(
                         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f),
                         shape = RoundedCornerShape(16.dp),
@@ -275,9 +276,11 @@ fun DashboardScreen(
                                             style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round)
                                         )
                                     }
-                                    Text(
-                                        text = "🎯",
-                                        style = MaterialTheme.typography.bodySmall
+                                    Icon(
+                                        imageVector = Icons.Default.DateRange,
+                                        contentDescription = null,
+                                        tint = primaryColor,
+                                        modifier = Modifier.size(18.dp)
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(12.dp))
@@ -288,7 +291,7 @@ fun DashboardScreen(
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
-                                        text = "🔥 $streakDays Day Streak",
+                                        text = "Streak: $streakDays days",
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.primary
                                     )
@@ -436,7 +439,7 @@ fun DashboardScreen(
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxWidth().padding(end = 80.dp) // keep clear of the FAB
+                            modifier = Modifier.fillMaxWidth().padding(end = 80.dp)
                         ) {
                             OutlinedTextField(
                                 value = quickTaskTitle,

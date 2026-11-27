@@ -16,42 +16,42 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.focusflow.app.repository.ThemeMode
 
-// "Oceanic Midnight & Luminous Ice Blue" (Dark Palette)
+// Dark Mode Palette (#0B132B, #1C2541, #3A506B, #5BC0BE)
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF7EB8F0),
-    onPrimary = Color(0xFF081D33),
-    primaryContainer = Color(0xFF173352),
-    onPrimaryContainer = Color(0xFFDDEEFE),
-    secondary = Color(0xFF72C5D3),
-    secondaryContainer = Color(0xFF153B44),
-    onSecondaryContainer = Color(0xFFCFEFF5),
-    tertiary = Color(0xFF94B5D6),
-    background = Color(0xFF0B131E),
-    surface = Color(0xFF121C2B),
-    surfaceVariant = Color(0xFF1A2638),
-    onBackground = Color(0xFFECF2F8),
-    onSurface = Color(0xFFECF2F8),
-    onSurfaceVariant = Color(0xFFA1B3C6),
-    outline = Color(0xFF27384C)
+    primary = Color(0xFF5BC0BE),
+    onPrimary = Color(0xFF0B132B),
+    primaryContainer = Color(0xFF1C2541),
+    onPrimaryContainer = Color(0xFF5BC0BE),
+    secondary = Color(0xFF3A506B),
+    secondaryContainer = Color(0xFF1C2541),
+    onSecondaryContainer = Color(0xFF5BC0BE),
+    tertiary = Color(0xFF6FFFE9),
+    background = Color(0xFF0B132B),
+    surface = Color(0xFF1C2541),
+    surfaceVariant = Color(0xFF3A506B),
+    onBackground = Color(0xFFE6F4F5),
+    onSurface = Color(0xFFE6F4F5),
+    onSurfaceVariant = Color(0xFFA5C4D4),
+    outline = Color(0xFF3A506B)
 )
 
-// "Nordic Frost & Deep Slate" (Light Palette)
+// Light Mode Palette (#E3F2FD, #90CAF9, #2196F3, #0D47A1)
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF1E3A5F),
+    primary = Color(0xFF2196F3),
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFE1EAF5),
-    onPrimaryContainer = Color(0xFF0D2340),
-    secondary = Color(0xFF3B6978),
-    secondaryContainer = Color(0xFFE0EDF2),
-    onSecondaryContainer = Color(0xFF122C34),
-    tertiary = Color(0xFF4A6984),
-    background = Color(0xFFF6F8FA),
+    primaryContainer = Color(0xFFE3F2FD),
+    onPrimaryContainer = Color(0xFF0D47A1),
+    secondary = Color(0xFF1565C0),
+    secondaryContainer = Color(0xFFE3F2FD),
+    onSecondaryContainer = Color(0xFF0D47A1),
+    tertiary = Color(0xFF1E88E5),
+    background = Color(0xFFF4F9FD),
     surface = Color(0xFFFFFFFF),
-    surfaceVariant = Color(0xFFEDF1F5),
-    onBackground = Color(0xFF111A24),
-    onSurface = Color(0xFF111A24),
-    onSurfaceVariant = Color(0xFF526375),
-    outline = Color(0xFFD8E0E8)
+    surfaceVariant = Color(0xFFE3F2FD),
+    onBackground = Color(0xFF0D47A1),
+    onSurface = Color(0xFF0D47A1),
+    onSurfaceVariant = Color(0xFF1976D2),
+    outline = Color(0xFF90CAF9)
 )
 
 @Composable

@@ -1,10 +1,11 @@
 package com.focusflow.app.ui.navigation
 
-import com.focusflow.app.repository.RepositoryErrors
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarHost
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -20,9 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -49,13 +50,12 @@ object Screen {
 
 @Composable
 fun FocusFlowApp(
-    authViewModel: AuthViewModel = hiltViewModel(),
-    taskViewModel: TaskViewModel = hiltViewModel(),
-    pomodoroViewModel: PomodoroViewModel = hiltViewModel()
+    authViewModel: AuthViewModel = viewModel(),
+    taskViewModel: TaskViewModel = viewModel(),
+    pomodoroViewModel: PomodoroViewModel = viewModel()
 ) {
     val navController = rememberNavController()
     val authState by authViewModel.authState.collectAsState()
-    val startDestination = remember { if (authState) Screen.DASHBOARD else Screen.AUTH }
     val themeMode by pomodoroViewModel.themeModeStateFlow.collectAsState()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -77,15 +77,9 @@ fun FocusFlowApp(
 
     val showBottomBar = authState && currentRoute != Screen.AUTH
 
-    val snackbarHostState = remember { SnackbarHostState() }
-    LaunchedEffect(Unit) {
-        RepositoryErrors.events.collect { snackbarHostState.showSnackbar(it) }
-    }
-
     FocusFlowTheme(themeMode = themeMode) {
         Scaffold(
-            modifier = Modifier.systemBarsPadding().imePadding(),
-            snackbarHost = { SnackbarHost(snackbarHostState) },
+            modifier = Modifier.systemBarsPadding(),
             bottomBar = {
                 if (showBottomBar) {
                     NavigationBar {
@@ -95,7 +89,7 @@ fun FocusFlowApp(
                             selected = currentRoute == Screen.DASHBOARD,
                             onClick = {
                                 navController.navigate(Screen.DASHBOARD) {
-                                    popUpTo(Screen.DASHBOARD) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
                                     }
                                     launchSingleTop = true
@@ -109,7 +103,7 @@ fun FocusFlowApp(
                             selected = currentRoute == Screen.ANALYTICS,
                             onClick = {
                                 navController.navigate(Screen.ANALYTICS) {
-                                    popUpTo(Screen.DASHBOARD) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
                                     }
                                     launchSingleTop = true
@@ -123,7 +117,7 @@ fun FocusFlowApp(
                             selected = currentRoute?.startsWith(Screen.POMODORO) == true,
                             onClick = {
                                 navController.navigate("${Screen.POMODORO}/none") {
-                                    popUpTo(Screen.DASHBOARD) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
                                     }
                                     launchSingleTop = true
@@ -137,7 +131,7 @@ fun FocusFlowApp(
                             selected = currentRoute == Screen.SETTINGS,
                             onClick = {
                                 navController.navigate(Screen.SETTINGS) {
-                                    popUpTo(Screen.DASHBOARD) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
                                         saveState = true
                                     }
                                     launchSingleTop = true
@@ -151,7 +145,11 @@ fun FocusFlowApp(
         ) { paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = startDestination,
+                startDestination = if (authState) Screen.DASHBOARD else Screen.AUTH,
+                enterTransition = { fadeIn(animationSpec = tween(250)) + slideInHorizontally { it / 6 } },
+                exitTransition = { fadeOut(animationSpec = tween(250)) + slideOutHorizontally { -it / 6 } },
+                popEnterTransition = { fadeIn(animationSpec = tween(250)) + slideInHorizontally { -it / 6 } },
+                popExitTransition = { fadeOut(animationSpec = tween(250)) + slideOutHorizontally { it / 6 } },
                 modifier = Modifier.padding(paddingValues)
             ) {
                 composable(Screen.AUTH) {

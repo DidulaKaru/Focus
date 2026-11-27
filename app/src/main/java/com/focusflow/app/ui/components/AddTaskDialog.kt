@@ -50,6 +50,11 @@ import com.focusflow.app.model.SubtaskModel
 import java.util.Calendar
 import java.util.TimeZone
 
+private fun formatDeadlineText(epochMillis: Long): String {
+    val sdf = java.text.SimpleDateFormat("MMM dd, yyyy", java.util.Locale.getDefault())
+    return sdf.format(java.util.Date(epochMillis))
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTaskDialog(
@@ -214,7 +219,7 @@ fun AddTaskDialog(
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Text(
-                                        text = "• ${subtask.title}",
+                                        text = subtask.title,
                                         style = MaterialTheme.typography.bodyMedium,
                                         modifier = Modifier.weight(1f)
                                     )
@@ -258,7 +263,7 @@ fun AddTaskDialog(
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(
-                            deadlineEpoch?.let { "Due: ${formatDeadline(it)}" } ?: "Set deadline (optional)"
+                            deadlineEpoch?.let { "Due: ${formatDeadlineText(it)}" } ?: "Set deadline (optional)"
                         )
                     }
                     if (deadlineEpoch != null) {
@@ -333,7 +338,6 @@ fun AddTaskDialog(
     }
 }
 
-// DatePicker works in UTC midnight; store the chosen calendar day as 09:00 local time.
 private fun pickerUtcToLocal(utcMillis: Long): Long {
     val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply { timeInMillis = utcMillis }
     return Calendar.getInstance().apply {
